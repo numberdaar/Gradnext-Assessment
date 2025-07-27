@@ -91,6 +91,25 @@ npm run dev
 - 📊 **Admin Dashboard**: http://localhost:5173/dashboard
 - 🔌 **API**: http://localhost:5000
 
+### 🌍 Environment Configuration
+
+The system automatically detects your environment and uses the appropriate API endpoints:
+
+- **Development**: Uses `http://localhost:5000/api`
+- **Production**: Uses `https://gradnext-assessment.onrender.com/api`
+
+**Manual Environment Switching:**
+```bash
+# Switch to production (Render deployment)
+node switch-env.js production
+
+# Switch to development (localhost)
+node switch-env.js development
+
+# Auto-detect environment (default)
+node switch-env.js auto
+```
+
 ---
 
 ## 📋 Features

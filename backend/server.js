@@ -4,6 +4,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+// Import configuration
+const config = require('./config/environment');
+
 // Import routes
 const formRoutes = require('./routes/form');
 const emailRoutes = require('./routes/email');
@@ -12,18 +15,18 @@ const emailRoutes = require('./routes/email');
 const { initializeCronJobs } = require('./utils/cronService');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = config.PORT;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: config.CORS_ORIGIN,
   credentials: true
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(config.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -45,7 +48,7 @@ app.get('/api/health', (req, res) => {
     success: true,
     message: 'Cohort Enrollment API is running',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: config.NODE_ENV
   });
 });
 
@@ -84,7 +87,7 @@ app.use('*', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📧 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📧 Environment: ${config.NODE_ENV}`);
   
   // Initialize cron jobs after server starts
   initializeCronJobs();

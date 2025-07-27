@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -14,8 +15,8 @@ const Dashboard = () => {
   const fetchData = async () => {
     try {
       const [usersResponse, statsResponse] = await Promise.all([
-        axios.get('/api/form/users'),
-        axios.get('/api/email/stats')
+        axios.get(`${API_BASE_URL}/form/users`),
+        axios.get(`${API_BASE_URL}/email/stats`)
       ]);
 
       setUsers(usersResponse.data.users);
@@ -32,7 +33,7 @@ const Dashboard = () => {
 
   const updateUserStatus = async (userId, updates) => {
     try {
-      const response = await axios.patch(`/api/form/users/${userId}/status`, updates);
+      const response = await axios.patch(`${API_BASE_URL}/form/users/${userId}/status`, updates);
       if (response.data.success) {
         setMessage({
           type: 'success',
@@ -50,7 +51,7 @@ const Dashboard = () => {
 
   const resendEmail = async (userId) => {
     try {
-      const response = await axios.post(`/api/form/users/${userId}/resend-email`);
+      const response = await axios.post(`${API_BASE_URL}/form/users/${userId}/resend-email`);
       if (response.data.success) {
         setMessage({
           type: 'success',
@@ -68,7 +69,7 @@ const Dashboard = () => {
 
   const triggerAutomation = async () => {
     try {
-      const response = await axios.post('/api/email/trigger-automation');
+      const response = await axios.post(`${API_BASE_URL}/email/trigger-automation`);
       if (response.data.success) {
         setMessage({
           type: 'success',

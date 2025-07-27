@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const Form = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      const response = await axios.post('/api/form/submit', formData);
+      const response = await axios.post(`${API_BASE_URL}/form/submit`, formData);
       
       if (response.data.success) {
         setMessage({
